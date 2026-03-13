@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const user = require("./models/User");
+const authRoutes = require("./routes/authRoutes");
 
 const sequelize = require("./config/db"); // database connection
 
@@ -40,3 +41,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+app.use("/api/auth", authRoutes);
