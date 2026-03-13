@@ -2,8 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const user = require("./models/User");
 
 const sequelize = require("./config/db"); // database connection
+
 
 const app = express();
 
@@ -23,6 +25,15 @@ sequelize.authenticate()
   .catch(err => {
     console.error("Database connection failed:", err);
   });
+
+sequelize.sync()
+  .then(() => {
+    console.log("Database synced");
+  })
+  .catch(err => {
+    console.error("Sync error:", err);
+  });
+
 
 const PORT = process.env.PORT || 3000;
 
