@@ -2,10 +2,24 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-const user = require("./models/User");
+
+require("./jobs/winnerSelection");
+
+const User = require("./models/user");
 const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require('./routes/profileRoutes');
+const bidRoutes = require("./routes/bidRoutes");
 
 const sequelize = require("./config/db"); // database connection
+require("./models/user");
+require("./models/Profile");
+require("./models/Degree");
+require("./models/Certification");
+require("./models/Licence");
+require("./models/Course");
+require("./models/Employment");
+require("./models/Bid");
+require("./models/MonthlyLimit");
 
 
 const app = express();
@@ -43,3 +57,5 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use('/api/profile', profileRoutes);
+app.use("/api/bids", bidRoutes);
