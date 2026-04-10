@@ -24,7 +24,6 @@ const Bid = sequelize.define("Bid", {
     allowNull: false
   },
   status: {
-    // winning / losing / cancelled / won / lost
     type: DataTypes.ENUM("winning", "losing", "cancelled", "won", "lost"),
     defaultValue: "losing"
   },

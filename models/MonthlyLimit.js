@@ -14,7 +14,6 @@ const MonthlyLimit = sequelize.define("MonthlyLimit", {
     references: { model: Profile, key: "id" }
   },
   month: {
-    // Format: "2026-04"
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -23,7 +22,7 @@ const MonthlyLimit = sequelize.define("MonthlyLimit", {
     defaultValue: 0
   },
   hasAttendedEvent: {
-    // Grants 4th bid slot
+  
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }

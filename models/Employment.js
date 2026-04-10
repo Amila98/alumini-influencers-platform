@@ -12,7 +12,7 @@ const Employment = sequelize.define("Employment", {
   jobTitle:    { type: DataTypes.STRING, allowNull: false },
   company:     { type: DataTypes.STRING, allowNull: false },
   startDate:   { type: DataTypes.DATEONLY, allowNull: false },
-  endDate:     { type: DataTypes.DATEONLY },   // null = current job
+  endDate:     { type: DataTypes.DATEONLY },   
   description: { type: DataTypes.TEXT }
 }, { timestamps: true });
 
