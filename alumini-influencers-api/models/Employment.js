@@ -9,6 +9,12 @@ const Employment = sequelize.define("Employment", {
     allowNull: false,
     references: { model: Profile, key: "id" }
   },
+  industrySector: {
+    type: DataTypes.STRING
+  },
+  location: {
+    type: DataTypes.STRING
+  },
   jobTitle:    { type: DataTypes.STRING, allowNull: false },
   company:     { type: DataTypes.STRING, allowNull: false },
   startDate:   { type: DataTypes.DATEONLY, allowNull: false },

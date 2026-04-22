@@ -18,6 +18,11 @@ const ApiKey = sequelize.define("ApiKey", {
     allowNull: false,
     unique: true
   },
+  permissions: {
+    type: DataTypes.JSON,
+    allowNull: false,
+    defaultValue: []
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false
@@ -33,7 +38,15 @@ const ApiKey = sequelize.define("ApiKey", {
     type: DataTypes.INTEGER,
     defaultValue: 0
   }
-}, { timestamps: true });
+}, {
+  timestamps: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ["key"]
+    }
+  ]
+});
 
 ApiKey.belongsTo(User, { foreignKey: "userId" });
 User.hasMany(ApiKey, { foreignKey: "userId" });

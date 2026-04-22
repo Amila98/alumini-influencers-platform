@@ -24,6 +24,13 @@ const ApiKeyLog = sequelize.define("ApiKeyLog", {
   ipAddress: {
     type: DataTypes.STRING
   },
+  denied: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  deniedReason: {
+    type: DataTypes.STRING
+  },
   accessedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW

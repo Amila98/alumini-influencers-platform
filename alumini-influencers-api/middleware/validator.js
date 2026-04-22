@@ -17,7 +17,7 @@ exports.registerValidator = [
   body("email")
     .isEmail().withMessage("Invalid email format")
     .normalizeEmail()
-    .matches(/@(my\.westminster\.ac\.uk|iit\.ac\.lk)$/)
+    .matches(/@(my\.eastminster\.ac\.uk)$/)
     .withMessage("Must use a university email address"),
 
   body("password")

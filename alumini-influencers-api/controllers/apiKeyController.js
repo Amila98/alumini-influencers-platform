@@ -3,26 +3,48 @@ const ApiKey = require("../models/ApiKey");
 const ApiKeyLog = require("../models/ApiKeyLog");
 
 
+const CLIENT_PERMISSIONS = {
+  analytics_dashboard: ["read:alumni", "read:analytics"],
+  ar_app:              ["read:alumni_of_day"],
+  other:               []
+};
+
 exports.generateKey = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, clientType = "other" } = req.body;
 
     if (!name) {
       return res.status(400).json({ message: "Key name is required" });
     }
+
+    // Validate clientType
+    const validTypes = ["analytics_dashboard", "ar_app", "other"];
+    if (!validTypes.includes(clientType)) {
+      return res.status(400).json({
+        message: "Invalid clientType",
+        validOptions: validTypes
+      });
+    }
+
+    // Check max 5 active keys per user
     const existingCount = await ApiKey.count({
       where: { userId: req.user.userId, isActive: true }
     });
-
     if (existingCount >= 5) {
       return res.status(400).json({ message: "Maximum 5 active API keys allowed" });
     }
+
+    // Auto-assign permissions based on client type
+    const permissions = CLIENT_PERMISSIONS[clientType];
+
     const key = crypto.randomBytes(32).toString("hex");
 
     const apiKey = await ApiKey.create({
       userId: req.user.userId,
       key,
-      name
+      name,
+      clientType,
+      permissions
     });
 
     res.status(201).json({
@@ -30,7 +52,9 @@ exports.generateKey = async (req, res) => {
       apiKey: {
         id: apiKey.id,
         name: apiKey.name,
-        key,           
+        clientType: apiKey.clientType,
+        permissions: apiKey.permissions,
+        key,  // ← shown only once
         createdAt: apiKey.createdAt
       },
       warning: "Save this key now — it will not be shown again"

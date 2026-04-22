@@ -31,7 +31,13 @@ const Profile = sequelize.define("Profile", {
   isActiveToday: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
-  }
+  },
+  programme: {
+    type: DataTypes.STRING  // e.g. "BSc Computer Science"
+  },
+  graduationYear: {
+    type: DataTypes.INTEGER // e.g. 2023
+  },
 }, { timestamps: true });
 
 Profile.belongsTo(User, { foreignKey: "userId" });

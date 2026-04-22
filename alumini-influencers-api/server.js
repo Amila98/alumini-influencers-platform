@@ -11,7 +11,6 @@ const { apiLimiter } = require("./middleware/rateLimiter");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 
-// ── Register all models so associations are set up ────────────
 require("./models/user");
 require("./models/Profile");
 require("./models/Degree");
@@ -24,7 +23,7 @@ require("./models/MonthlyLimit");
 require("./models/ApiKey");
 require("./models/ApiKeyLog");
 
-// ── Routes ────────────────────────────────────────────────────
+
 const authRoutes    = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const bidRoutes     = require("./routes/bidRoutes");
@@ -33,7 +32,7 @@ const publicRoutes = require("./routes/publicRoutes");
 
 const app = express();
 
-// ── Security Middleware ───────────────────────────────────────
+
 app.use(helmet());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"],
@@ -61,7 +60,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ── Routes ────────────────────────────────────────────────────
+
 app.get("/", (req, res) => {
   res.send("Alumni Influencer API Running");
 });
@@ -75,18 +74,16 @@ app.use("/api/public", publicRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// ── 404 Handler ───────────────────────────────────────────────
+
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-// ── Global Error Handler ──────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Internal server error" });
 });
 
-// ── Start Server ──────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
@@ -97,7 +94,7 @@ const startServer = async () => {
     await sequelize.sync({ alter: true });
     console.log("Database synced");
 
-    // Start cron jobs AFTER db is ready
+
     require("./jobs/winnerSelection");
 
     app.listen(PORT, () => {
@@ -106,7 +103,7 @@ const startServer = async () => {
 
   } catch (err) {
     console.error("Failed to start server:", err);
-    process.exit(1); // Exit if DB fails — don't run without DB
+    process.exit(1); 
   }
 };
 
