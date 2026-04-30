@@ -10,12 +10,21 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async ({ to, subject, html }) => {
-  await transporter.sendMail({
-    from: `"Alumni Platform" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html
-  });
+  try {
+    const info = await transporter.sendMail({
+      from: `"Alumni Platform" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      html
+    });
+
+    console.log("✅ EMAIL SENT:", info.messageId);
+  } catch (err) {
+    console.error("❌ EMAIL FAILED:", err);
+  }
 };
 
 module.exports = sendEmail;
+
+
+

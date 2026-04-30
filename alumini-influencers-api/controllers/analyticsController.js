@@ -8,11 +8,10 @@ const Licence      = require("../models/Licence");
 const Course       = require("../models/Course");
 const Employment   = require("../models/Employment");
 
-// ─── Helper: build filter WHERE clause ───────────────────────
-// Supports ?programme=CS&graduationYear=2023&sector=Technology
+
 const buildProfileFilter = (query) => {
   const where = {};
-  if (query.programme)      where.programme = query.programme;
+  if (query.programme)      where.programme = query.programme;       // exact match
   if (query.graduationYear) where.graduationYear = query.graduationYear;
   return where;
 };
@@ -23,7 +22,39 @@ const buildEmploymentFilter = (query) => {
   return where;
 };
 
-// ─── 1. Get All Alumni (filtered) ────────────────────────────
+
+//  Filter Options for Frontend Dropdowns 
+exports.getFilterOptions = async (req, res) => {
+  try {
+    const [programmes, years, sectors] = await Promise.all([
+      Profile.findAll({
+        attributes: [[fn("DISTINCT", col("programme")), "programme"]],
+        where: { programme: { [Op.not]: null } },
+        raw: true
+      }),
+      Profile.findAll({
+        attributes: [[fn("DISTINCT", col("graduationYear")), "graduationYear"]],
+        where: { graduationYear: { [Op.not]: null } },
+        order: [["graduationYear", "DESC"]],
+        raw: true
+      }),
+      Employment.findAll({
+        attributes: [[fn("DISTINCT", col("industrySector")), "industrySector"]],
+        where: { industrySector: { [Op.not]: null } },
+        raw: true
+      })
+    ]);
+
+    res.json({
+      programmes: programmes.map(p => p.programme).filter(Boolean).sort(),
+      graduationYears: years.map(y => y.graduationYear).filter(Boolean),
+      sectors: sectors.map(s => s.industrySector).filter(Boolean).sort()
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+//  Get All Alumni (filtered) 
 // GET /api/public/alumni?programme=CS&graduationYear=2023&sector=Tech
 exports.getAllAlumni = async (req, res) => {
   try {
@@ -56,10 +87,7 @@ exports.getAllAlumni = async (req, res) => {
   }
 };
 
-// ─── 2. Skills Gap Analysis ───────────────────────────────────
-// GET /api/public/analytics/skills-gap
-// Shows certifications alumni acquired AFTER graduation
-// = signals what the curriculum is missing
+// Skills Gap Analysis 
 exports.getSkillsGap = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -134,8 +162,7 @@ exports.getSkillsGap = async (req, res) => {
   }
 };
 
-// ─── 3. Employment by Industry Sector ────────────────────────
-// GET /api/public/analytics/employment-sectors
+// Employment by Industry Sector
 exports.getEmploymentSectors = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -152,7 +179,6 @@ exports.getEmploymentSectors = async (req, res) => {
       }],
       where: {
         industrySector: { [Op.not]: null },
-        // Current jobs only (endDate is null)
         endDate: null
       },
       group: ["industrySector"],
@@ -178,8 +204,7 @@ exports.getEmploymentSectors = async (req, res) => {
   }
 };
 
-// ─── 4. Most Common Job Titles ────────────────────────────────
-// GET /api/public/analytics/job-titles?limit=10
+// Most Common Job Titles 
 exports.getJobTitles = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -214,8 +239,7 @@ exports.getJobTitles = async (req, res) => {
   }
 };
 
-// ─── 5. Top N Employers ───────────────────────────────────────
-// GET /api/public/analytics/top-employers?limit=10
+
 exports.getTopEmployers = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -231,7 +255,7 @@ exports.getTopEmployers = async (req, res) => {
         where: profileWhere,
         attributes: []
       }],
-      where: { endDate: null }, // current jobs only
+      where: { endDate: null }, 
       group: ["company"],
       order: [[literal("count"), "DESC"]],
       limit,
@@ -250,8 +274,7 @@ exports.getTopEmployers = async (req, res) => {
   }
 };
 
-// ─── 6. Geographic Distribution ──────────────────────────────
-// GET /api/public/analytics/geographic
+// Geographic Distribution 
 exports.getGeographic = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -291,9 +314,7 @@ exports.getGeographic = async (req, res) => {
   }
 };
 
-// ─── 7. Certification Trends Over Time ───────────────────────
-// GET /api/public/analytics/cert-trends
-// Shows how certifications have grown month by month
+// Certification Trends Over Time 
 exports.getCertTrends = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -337,8 +358,8 @@ exports.getCertTrends = async (req, res) => {
   }
 };
 
-// ─── 8. Summary Stats (Dashboard overview cards) ─────────────
-// GET /api/public/analytics/summary
+// Summary Stats (Dashboard overview cards) 
+
 exports.getSummary = async (req, res) => {
   try {
     const profileWhere = buildProfileFilter(req.query);
@@ -377,6 +398,165 @@ exports.getSummary = async (req, res) => {
           : 0
       }
     });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+// Programme Comparison (Radar Chart) 
+exports.getProgrammeComparison = async (req, res) => {
+  try {
+    const programmes = await Profile.findAll({
+      attributes: [
+        "programme",
+        [fn("COUNT", col("Profile.id")), "totalAlumni"],
+        [fn("AVG", col("Certifications.id")), "avgCerts"],
+      ],
+      include: [
+        { model: Certification, attributes: [] },
+        { model: Course, attributes: [] },
+        { model: Employment, attributes: [], where: { endDate: null }, required: false }
+      ],
+      group: ["programme"],
+      raw: true
+    });
+
+    // Simpler approach — query each metric separately
+    const programmeList = await Profile.findAll({
+      attributes: [[fn("DISTINCT", col("programme")), "programme"]],
+      where: { programme: { [Op.not]: null } },
+      raw: true
+    });
+
+    const results = await Promise.all(
+      programmeList.map(async ({ programme }) => {
+        const where = { programme };
+
+        const [total, certs, courses, employed, degrees] = await Promise.all([
+          Profile.count({ where }),
+          Certification.count({ include: [{ model: Profile, where, attributes: [] }] }),
+          Course.count({ include: [{ model: Profile, where, attributes: [] }] }),
+          Employment.count({
+            include: [{ model: Profile, where, attributes: [] }],
+            where: { endDate: null }
+          }),
+          Degree.count({ include: [{ model: Profile, where, attributes: [] }] })
+        ]);
+
+        return {
+          programme,
+          totalAlumni: total,
+          avgCerts:    total > 0 ? Math.round((certs    / total) * 10) / 10 : 0,
+          avgCourses:  total > 0 ? Math.round((courses  / total) * 10) / 10 : 0,
+          avgDegrees:  total > 0 ? Math.round((degrees  / total) * 10) / 10 : 0,
+          employmentRate: total > 0 ? Math.round((employed / total) * 100) : 0
+        };
+      })
+    );
+
+    res.json({
+      filters: req.query,
+      programmes: results.filter(p => p.programme && p.totalAlumni > 0)
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+
+exports.getCareerProgression = async (req, res) => {
+  try {
+    const profileWhere = buildProfileFilter(req.query);
+
+    const jobs = await Employment.findAll({
+      include: [{
+        model: Profile,
+        where: profileWhere,
+        attributes: ['graduationYear']
+      }],
+      where: { endDate: null }, 
+      attributes: ['jobTitle', 'startDate']
+    });
+
+    const levels = {
+      'Junior': 0,
+      'Mid-Level': 0,
+      'Senior': 0,
+      'Lead': 0,
+      'Manager': 0
+    };
+
+    jobs.forEach(job => {
+      const title = job.jobTitle.toLowerCase();
+      if (title.includes('junior') || title.includes('graduate')) {
+        levels['Junior']++;
+      } else if (title.includes('senior') || title.includes('principal')) {
+        levels['Senior']++;
+      } else if (title.includes('lead') || title.includes('staff')) {
+        levels['Lead']++;
+      } else if (title.includes('manager') || title.includes('director') || title.includes('head')) {
+        levels['Manager']++;
+      } else {
+        levels['Mid-Level']++;
+      }
+    });
+
+    res.json({
+      filters: req.query,
+      totalJobs: jobs.length,
+      levels
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+exports.getEmploymentTimeline = async (req, res) => {
+  try {
+    const profileWhere = buildProfileFilter(req.query);
+
+    const profiles = await Profile.findAll({
+      where: profileWhere,
+      include: [{
+        model: Employment,
+        where: { endDate: null },
+        required: false
+      }],
+      attributes: ['id', 'graduationYear']
+    });
+
+
+    const timelineData = {};
+    
+    profiles.forEach(p => {
+      const year = p.graduationYear;
+      if (!timelineData[year]) {
+        timelineData[year] = { total: 0, employed: 0 };
+      }
+      timelineData[year].total++;
+      if (p.Employments && p.Employments.length > 0) {
+        timelineData[year].employed++;
+      }
+    });
+
+    const timeline = Object.entries(timelineData)
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, stats]) => ({
+        year: parseInt(year),
+        total: stats.total,
+        employed: stats.employed,
+        employmentRate: Math.round((stats.employed / stats.total) * 100)
+      }));
+
+    res.json({
+      filters: req.query,
+      timeline
+    });
+
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }

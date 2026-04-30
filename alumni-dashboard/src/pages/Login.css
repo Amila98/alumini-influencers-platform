@@ -1,0 +1,185 @@
+:root {
+  --primary: #7f77dd;
+  --primary-hover: #6c63cc;
+  --bg-dark: #0a0a0f;
+  --card-bg: rgba(20, 20, 28, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+.login-shell {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* ── Decorative Background Blobs ── */
+.login-background-decor .blob {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: var(--primary);
+  filter: blur(120px);
+  opacity: 0.15;
+  border-radius: 50%;
+  z-index: 1;
+}
+.blob-1 { top: -100px; left: -100px; }
+.blob-2 { bottom: -100px; right: -100px; }
+
+/* ── Glassmorphism Card ── */
+.login-card-v2 {
+  position: relative;
+  z-index: 10;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.login-header { text-align: center; margin-bottom: 2.5rem; }
+
+.brand-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--primary);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: white;
+  box-shadow: 0 8px 20px rgba(127, 119, 221, 0.3);
+}
+
+.login-header h1 { color: white; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+.login-header p { color: #888; font-size: 0.9rem; }
+
+/* ── Error Box ── */
+.error-box {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Form Styling ── */
+.input-group { margin-bottom: 1.5rem; }
+.input-group label { display: block; color: #bbb; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.6rem; }
+
+.input-group input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  padding: 0.9rem 1.1rem;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 4px rgba(127, 119, 221, 0.15);
+}
+
+.password-wrapper { position: relative; }
+.toggle-pass {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: auto;
+  padding: 4px 8px;
+}
+
+.login-submit {
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.login-submit:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 10px 20px rgba(127, 119, 221, 0.2); }
+.login-submit:active { transform: scale(0.98); }
+.login-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Footer & Action Links Styling ── */
+.login-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+  text-align: center;
+}
+
+.login-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.action-link {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  color: #94a3b8;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  flex: 1;
+  justify-content: center;
+}
+
+.action-link:hover {
+  background: rgba(127, 119, 221, 0.1);
+  border-color: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.action-link svg {
+  opacity: 0.7;
+}
+
+.copyright {
+  color: #475569;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}

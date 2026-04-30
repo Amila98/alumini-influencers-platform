@@ -1,0 +1,154 @@
+/* Container (add this if not already) */
+.filter-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s ease;
+}
+
+.filter-panel:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.filter-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.filter-panel-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Badge */
+.filter-active-badge {
+  font-size: 0.7rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
+}
+
+/* Filter group spacing */
+.filter-group {
+  margin-bottom: 1.2rem;
+}
+
+/* Select */
+.filter-group select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+}
+
+/* Hover effect */
+.filter-group select:hover {
+  border-color: #c7d2fe;
+  background: #ffffff;
+}
+
+/* Focus effect */
+.filter-group select:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Disabled */
+.filter-group select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Actions */
+.filter-actions {
+  margin-top: 1rem;
+}
+
+/* Reset button */
+.btn-reset {
+  width: 100%;
+  padding: 0.65rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Button hover */
+.btn-reset:hover {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5f5);
+  transform: translateY(-1px);
+}
+
+/* Button click */
+.btn-reset:active {
+  transform: scale(0.98);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.btn-search {
+  flex: 1;
+  padding: 0.625rem 1.25rem;
+  background: #2d1b69;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.btn-search:hover {
+  background: #534AB7;
+}
+
+.btn-reset {
+  flex: 1;
+  padding: 0.625rem 1.25rem;
+  background: #edf2f7;
+  color: #2d3748;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.btn-reset:hover {
+  background: #e2e8f0;
+}

@@ -33,10 +33,10 @@ const Profile = sequelize.define("Profile", {
     defaultValue: false
   },
   programme: {
-    type: DataTypes.STRING  // e.g. "BSc Computer Science"
+    type: DataTypes.STRING  
   },
   graduationYear: {
-    type: DataTypes.INTEGER // e.g. 2023
+    type: DataTypes.INTEGER 
   },
 }, { timestamps: true });
 

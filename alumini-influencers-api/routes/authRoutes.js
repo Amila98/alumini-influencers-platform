@@ -21,7 +21,7 @@
  *             properties:
  *               email:
  *                 type: string
- *                 example: w1833514@my.westminster.ac.uk
+ *                 example: w1833514@my.eastminster.ac.uk
  *               password:
  *                 type: string
  *                 example: Test@1234

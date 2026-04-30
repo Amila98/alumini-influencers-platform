@@ -37,7 +37,12 @@ const ApiKeyLog = sequelize.define("ApiKeyLog", {
   }
 }, { timestamps: false });
 
-ApiKeyLog.belongsTo(ApiKey, { foreignKey: "apiKeyId" });
+ApiKeyLog.belongsTo(ApiKey, 
+  { 
+    foreignKey: "apiKeyId",
+    onDelete: "CASCADE"
+  }
+);
 ApiKey.hasMany(ApiKeyLog, { foreignKey: "apiKeyId" });
 
 module.exports = ApiKeyLog;

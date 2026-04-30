@@ -20,9 +20,10 @@ const options = {
           description: "JWT token for authenticated alumni users"
         },
         ApiKeyAuth: {
-          type: "http",
-          scheme: "bearer",
-          description: "API key for external client access"
+          type: "apiKey", 
+          in: "header",
+          name: "Authorization",
+          description: "Format: Bearer <api_key>" 
         }
       }
     }

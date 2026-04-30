@@ -40,8 +40,12 @@ const User = sequelize.define("User", {
   },
   verificationTokenExpiry: {
   type: DataTypes.DATE
+  },
+  role: {
+  type: DataTypes.ENUM('staff', 'alumni'),
+  allowNull: false,
+  defaultValue: 'alumni' 
   }
-
 }, {
   timestamps: true
 });

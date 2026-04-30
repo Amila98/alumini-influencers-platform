@@ -1,11 +1,7 @@
 const ApiKey = require("../models/ApiKey");
 const ApiKeyLog = require("../models/ApiKeyLog");
-
-const CLIENT_PERMISSIONS = {
-  analytics_dashboard: ["read:alumni", "read:analytics"],
-  ar_app:              ["read:alumni_of_day"],
-  other:               []
-};
+const crypto = require("crypto");
+const CLIENT_PERMISSIONS = require("../utils/permissions");
 
 const apiKeyAuth = (requiredPermission) => async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -17,15 +13,34 @@ const apiKeyAuth = (requiredPermission) => async (req, res, next) => {
   const key = authHeader.split(" ")[1];
 
   try {
-    const apiKey = await ApiKey.findOne({ where: { key, isActive: true } });
+    const hashedKey = crypto
+      .createHash("sha256")
+      .update(key)
+      .digest("hex");
+
+    const apiKey = await ApiKey.findOne({
+      where: { key: hashedKey, isActive: true }
+    });
 
     if (!apiKey) {
       return res.status(401).json({ message: "Invalid or revoked API key" });
     }
 
-    const permissions = Array.isArray(apiKey.permissions)
-      ? apiKey.permissions
-      : [];
+    let permissions = apiKey.permissions;
+
+    if (typeof permissions === "string") {
+      try {
+        permissions = JSON.parse(permissions);
+      } catch (err) {
+        console.error("Failed to parse permissions:", err);
+        permissions = [];
+      }
+    }
+
+    // Ensure it's an array
+    if (!Array.isArray(permissions)) {
+      permissions = [];
+    }
 
     const hasPermission = permissions.includes(requiredPermission);
 

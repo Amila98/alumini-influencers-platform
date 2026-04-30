@@ -19,7 +19,6 @@ const Bid = sequelize.define("Bid", {
     validate: { min: 0.01 }
   },
   bidDate: {
-    // The date this bid is FOR (tomorrow's slot)
     type: DataTypes.DATEONLY,
     allowNull: false
   },

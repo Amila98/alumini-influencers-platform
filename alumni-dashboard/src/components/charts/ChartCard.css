@@ -1,0 +1,127 @@
+/* ── Chart Card ───────────────────────────────────────────── */
+.chart-card {
+  background: #ffffff;
+  padding: 1.6rem;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle hover lift */
+.chart-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(83, 74, 183, 0.12);
+}
+
+/* soft gradient glow */
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -40%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(83, 74, 183, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Chart Container ─────────────────────────────────────── */
+.chart-container {
+  height: 380px;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Legend ──────────────────────────────────────────────── */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #edf2f7;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #4a5568;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.legend-item:hover {
+  color: #2d3748;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.03);
+}
+
+/* ── Export Button ───────────────────────────────────────── */
+.btn-export-chart {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(135deg, #f5f5ff, #eeedf7);
+  border: 1px solid #d6d6f0;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #2d3748;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* hover = more alive */
+.btn-export-chart:hover {
+  background: linear-gradient(135deg, #e9e7ff, #e2e8f0);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(83, 74, 183, 0.15);
+}
+
+/* click feedback */
+.btn-export-chart:active {
+  transform: scale(0.98);
+}
+
+/* ── Loading / Error States ─────────────────────────────── */
+.chart-card.loading,
+.chart-card.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.chart-card.loading {
+  color: #718096;
+}
+
+/* subtle pulse animation */
+.chart-card.loading::after {
+  content: 'Loading...';
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.chart-card.error {
+  color: #e53e3e;
+}

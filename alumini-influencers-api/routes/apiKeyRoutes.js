@@ -24,6 +24,9 @@
  *               name:
  *                 type: string
  *                 example: AR Client
+ *               clientType:
+ *                 type: string
+ *                 example: analytics_dashboard
  *     responses:
  *       201:
  *         description: Key generated — shown only once
