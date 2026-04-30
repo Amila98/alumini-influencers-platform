@@ -146,34 +146,3 @@ EMAIL_USER=your_user
 EMAIL_PASS=your_pass
 
 APP_URL=http://localhost:3000
-
-
-
-🔌 API Documentation
-
-Available at:
-
-http://localhost:3000/api-docs
-
-Includes:
-
-All endpoints
-Request/response formats
-Authentication details
-
-
-🚀 Setup & Installation
-
-1. Clone Repository
-   git clone https://github.com/your-username/alumni-platform.git
-   cd alumni-platform
-2. Backend Setup
-   cd backend
-   npm install
-   nodemon server.js
-3. Frontend Setup
-   cd frontend
-   npm install
-   npm run dev
-
-   Frontend runs at: http://localhost:5173
