@@ -1,5 +1,5 @@
 const Profile       = require("../models/Profile");
-const User          = require("../models/user");
+const User          = require("../models/User");
 const Degree        = require("../models/Degree");
 const Certification = require("../models/Certification");
 const Licence       = require("../models/Licence");
