@@ -10,7 +10,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 
 // Models
-require("./models/user");
+require("./models/User");
 require("./models/Profile");
 require("./models/Degree");
 require("./models/Certification");
