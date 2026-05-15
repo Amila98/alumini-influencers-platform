@@ -1,20 +1,4 @@
-process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION:', err.message);
-  console.error(err.stack);
-});
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION:', err.message);
-  console.error(err.stack);
-});
-
-
 require("dotenv").config({ path: '.env', override: false });
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_PORT:', process.env.DB_PORT);
-console.log('DB_NAME:', process.env.DB_NAME);
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD EXISTS:', !!process.env.DB_PASSWORD);
 
 const express = require("express");
 const cors = require("cors");
@@ -27,45 +11,24 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 
 // Models
-//require("./models/User");
-//require("./models/Profile");
-//require("./models/Degree");
-//require("./models/Certification");
-//require("./models/Licence");
-//require("./models/Course");
-//require("./models/Employment");
-//require("./models/Bid");
-//require("./models/MonthlyLimit");
-//require("./models/ApiKey");
-//require("./models/ApiKeyLog");
+require("./models/User");
+require("./models/Profile");
+require("./models/Degree");
+require("./models/Certification");
+require("./models/Licence");
+require("./models/Course");
+require("./models/Employment");
+require("./models/Bid");
+require("./models/MonthlyLimit");
+require("./models/ApiKey");
+require("./models/ApiKeyLog");
 
 // Routes
-//const authRoutes    = require("./routes/authRoutes");
-//const profileRoutes = require("./routes/profileRoutes");
-//const bidRoutes     = require("./routes/bidRoutes");
-//const apiKeyRoutes  = require("./routes/apiKeyRoutes");
-//const publicRoutes  = require("./routes/publicRoutes");
-
-
-console.log('Loading models...');
-try { require("./models/User"); console.log('✅ User'); } catch(e) { console.error('❌ User:', e.message); }
-try { require("./models/Profile"); console.log('✅ Profile'); } catch(e) { console.error('❌ Profile:', e.message); }
-try { require("./models/Degree"); console.log('✅ Degree'); } catch(e) { console.error('❌ Degree:', e.message); }
-try { require("./models/Certification"); console.log('✅ Certification'); } catch(e) { console.error('❌ Certification:', e.message); }
-try { require("./models/Licence"); console.log('✅ Licence'); } catch(e) { console.error('❌ Licence:', e.message); }
-try { require("./models/Course"); console.log('✅ Course'); } catch(e) { console.error('❌ Course:', e.message); }
-try { require("./models/Employment"); console.log('✅ Employment'); } catch(e) { console.error('❌ Employment:', e.message); }
-try { require("./models/Bid"); console.log('✅ Bid'); } catch(e) { console.error('❌ Bid:', e.message); }
-try { require("./models/MonthlyLimit"); console.log('✅ MonthlyLimit'); } catch(e) { console.error('❌ MonthlyLimit:', e.message); }
-try { require("./models/ApiKey"); console.log('✅ ApiKey'); } catch(e) { console.error('❌ ApiKey:', e.message); }
-try { require("./models/ApiKeyLog"); console.log('✅ ApiKeyLog'); } catch(e) { console.error('❌ ApiKeyLog:', e.message); }
-
-console.log('Loading routes...');
-const authRoutes    = require("./routes/authRoutes");    console.log('✅ authRoutes');
-const profileRoutes = require("./routes/profileRoutes"); console.log('✅ profileRoutes');
-const bidRoutes     = require("./routes/bidRoutes");     console.log('✅ bidRoutes');
-const apiKeyRoutes  = require("./routes/apiKeyRoutes");  console.log('✅ apiKeyRoutes');
-const publicRoutes  = require("./routes/publicRoutes");  console.log('✅ publicRoutes');
+const authRoutes    = require("./routes/authRoutes");
+const profileRoutes = require("./routes/profileRoutes");
+const bidRoutes     = require("./routes/bidRoutes");
+const apiKeyRoutes  = require("./routes/apiKeyRoutes");
+const publicRoutes  = require("./routes/publicRoutes");
 
 const app = express();
 
