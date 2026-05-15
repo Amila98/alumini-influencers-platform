@@ -1,4 +1,5 @@
 const swaggerJsdoc = require("swagger-jsdoc");
+const path = require("path");
 
 const options = {
   definition: {
@@ -9,7 +10,10 @@ const options = {
       description: "API for the Alumni Influencer Platform - manage profiles, bids, and public data"
     },
     servers: [
-      { url: "http://localhost:3000", description: "Development server" }
+      { 
+        url: process.env.APP_URL || "http://localhost:3000", 
+        description: "API server" 
+      }
     ],
     components: {
       securitySchemes: {
