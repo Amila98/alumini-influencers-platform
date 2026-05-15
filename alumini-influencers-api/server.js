@@ -25,24 +25,45 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 
 // Models
-require("./models/User");
-require("./models/Profile");
-require("./models/Degree");
-require("./models/Certification");
-require("./models/Licence");
-require("./models/Course");
-require("./models/Employment");
-require("./models/Bid");
-require("./models/MonthlyLimit");
-require("./models/ApiKey");
-require("./models/ApiKeyLog");
+//require("./models/User");
+//require("./models/Profile");
+//require("./models/Degree");
+//require("./models/Certification");
+//require("./models/Licence");
+//require("./models/Course");
+//require("./models/Employment");
+//require("./models/Bid");
+//require("./models/MonthlyLimit");
+//require("./models/ApiKey");
+//require("./models/ApiKeyLog");
 
 // Routes
-const authRoutes    = require("./routes/authRoutes");
-const profileRoutes = require("./routes/profileRoutes");
-const bidRoutes     = require("./routes/bidRoutes");
-const apiKeyRoutes  = require("./routes/apiKeyRoutes");
-const publicRoutes  = require("./routes/publicRoutes");
+//const authRoutes    = require("./routes/authRoutes");
+//const profileRoutes = require("./routes/profileRoutes");
+//const bidRoutes     = require("./routes/bidRoutes");
+//const apiKeyRoutes  = require("./routes/apiKeyRoutes");
+//const publicRoutes  = require("./routes/publicRoutes");
+
+
+console.log('Loading models...');
+try { require("./models/User"); console.log('✅ User'); } catch(e) { console.error('❌ User:', e.message); }
+try { require("./models/Profile"); console.log('✅ Profile'); } catch(e) { console.error('❌ Profile:', e.message); }
+try { require("./models/Degree"); console.log('✅ Degree'); } catch(e) { console.error('❌ Degree:', e.message); }
+try { require("./models/Certification"); console.log('✅ Certification'); } catch(e) { console.error('❌ Certification:', e.message); }
+try { require("./models/Licence"); console.log('✅ Licence'); } catch(e) { console.error('❌ Licence:', e.message); }
+try { require("./models/Course"); console.log('✅ Course'); } catch(e) { console.error('❌ Course:', e.message); }
+try { require("./models/Employment"); console.log('✅ Employment'); } catch(e) { console.error('❌ Employment:', e.message); }
+try { require("./models/Bid"); console.log('✅ Bid'); } catch(e) { console.error('❌ Bid:', e.message); }
+try { require("./models/MonthlyLimit"); console.log('✅ MonthlyLimit'); } catch(e) { console.error('❌ MonthlyLimit:', e.message); }
+try { require("./models/ApiKey"); console.log('✅ ApiKey'); } catch(e) { console.error('❌ ApiKey:', e.message); }
+try { require("./models/ApiKeyLog"); console.log('✅ ApiKeyLog'); } catch(e) { console.error('❌ ApiKeyLog:', e.message); }
+
+console.log('Loading routes...');
+try { require("./routes/authRoutes"); console.log('✅ authRoutes'); } catch(e) { console.error('❌ authRoutes:', e.message); }
+try { require("./routes/profileRoutes"); console.log('✅ profileRoutes'); } catch(e) { console.error('❌ profileRoutes:', e.message); }
+try { require("./routes/bidRoutes"); console.log('✅ bidRoutes'); } catch(e) { console.error('❌ bidRoutes:', e.message); }
+try { require("./routes/apiKeyRoutes"); console.log('✅ apiKeyRoutes'); } catch(e) { console.error('❌ apiKeyRoutes:', e.message); }
+try { require("./routes/publicRoutes"); console.log('✅ publicRoutes'); } catch(e) { console.error('❌ publicRoutes:', e.message); }
 
 const app = express();
 
