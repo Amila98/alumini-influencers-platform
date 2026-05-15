@@ -21,7 +21,7 @@ export default function ResetPassword() {
     setLoading(true);
     try {
       // Endpoint: POST /api/auth/reset-password/:token
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password/${token}`, { 
+      await axios.post(`https://alumini-influencers-platform-api.onrender.com/api/auth/reset-password/${token}`, { 
         password 
       });
       
