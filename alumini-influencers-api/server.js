@@ -1,4 +1,8 @@
 require("dotenv").config({ path: '.env', override: false });
+
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+console.log('DB_NAME:', process.env.DB_NAME);
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
