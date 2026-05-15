@@ -13,7 +13,7 @@ export default function ForgotPassword() {
     setStatus({ type: '', msg: '' });
 
     try {
-      await axios.post('${import.meta.env.VITE_API_URL}/api/auth/forgot-password', { email });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, { email });
       setStatus({ 
         type: 'success', 
         msg: "If an account exists, a reset link has been sent to your email." 
