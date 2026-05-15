@@ -59,11 +59,11 @@ try { require("./models/ApiKey"); console.log('✅ ApiKey'); } catch(e) { consol
 try { require("./models/ApiKeyLog"); console.log('✅ ApiKeyLog'); } catch(e) { console.error('❌ ApiKeyLog:', e.message); }
 
 console.log('Loading routes...');
-try { require("./routes/authRoutes"); console.log('✅ authRoutes'); } catch(e) { console.error('❌ authRoutes:', e.message); }
-try { require("./routes/profileRoutes"); console.log('✅ profileRoutes'); } catch(e) { console.error('❌ profileRoutes:', e.message); }
-try { require("./routes/bidRoutes"); console.log('✅ bidRoutes'); } catch(e) { console.error('❌ bidRoutes:', e.message); }
-try { require("./routes/apiKeyRoutes"); console.log('✅ apiKeyRoutes'); } catch(e) { console.error('❌ apiKeyRoutes:', e.message); }
-try { require("./routes/publicRoutes"); console.log('✅ publicRoutes'); } catch(e) { console.error('❌ publicRoutes:', e.message); }
+const authRoutes    = require("./routes/authRoutes");    console.log('✅ authRoutes');
+const profileRoutes = require("./routes/profileRoutes"); console.log('✅ profileRoutes');
+const bidRoutes     = require("./routes/bidRoutes");     console.log('✅ bidRoutes');
+const apiKeyRoutes  = require("./routes/apiKeyRoutes");  console.log('✅ apiKeyRoutes');
+const publicRoutes  = require("./routes/publicRoutes");  console.log('✅ publicRoutes');
 
 const app = express();
 
