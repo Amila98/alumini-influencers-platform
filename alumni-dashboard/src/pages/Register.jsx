@@ -43,7 +43,7 @@ export default function Register() {
 
     try {
       // Roles are assigned based on the email prefix/domain on the backend
-      await axios.post('http://localhost:3000/api/auth/register', { email, password });
+      await axios.post('${import.meta.env.VITE_API_URL}/api/auth/register', { email, password });
       
       setStatus({ 
         type: 'success', 
