@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'https://alumini-influencers-platform-api.onrender.com';
+const API_BASE = '${import.meta.env.VITE_API_URL}';
 
 // Store API key in localStorage (after login/generation)
 const getApiKey = () => localStorage.getItem('apiKey');
