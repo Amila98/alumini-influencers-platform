@@ -1,8 +1,19 @@
-require("dotenv").config({ path: '.env', override: false });
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err.message);
+  console.error(err.stack);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION:', err.message);
+  console.error(err.stack);
+});
 
+
+require("dotenv").config({ path: '.env', override: false });
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_PORT:', process.env.DB_PORT);
 console.log('DB_NAME:', process.env.DB_NAME);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
