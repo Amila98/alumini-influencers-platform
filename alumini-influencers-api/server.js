@@ -35,19 +35,19 @@ const app = express();
 // Middleware
 app.use(helmet());
 
-//const allowedOrigins = [
-//  'http://localhost:5173', 
-// 'http://127.0.0.1:5173',
-//  'http://localhost:3000'
-//];
-
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
-  : ['http://localhost:5173', 'http://localhost:3000'];
+  : [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'https://alumini-influencers-platform.vercel.app',
+      'https://alumini-influencers-platform-api.onrender.com'
+    ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) return callback(null, true); 
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -105,7 +105,7 @@ const PORT = process.env.PORT || 3000;
 const startServer = async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Database connected");
+    console.log("Database connected");
 
     
     await sequelize.sync({ alter: false }); 
